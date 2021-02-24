@@ -2,6 +2,11 @@
 
 // http://www.color.org/profileheader.xalter
 
+
+
+
+
+
 const versionMap = {
   0x02000000: '2.0',
   0x02100000: '2.1',
@@ -40,7 +45,17 @@ const tagMap = {
   desc: 'description',
   cprt: 'copyright',
   dmdd: 'deviceModelDescription',
-  vued: 'viewingConditionsDescription'
+  vued: 'viewingConditionsDescription',
+  wtpt: 'whitepoint',
+  kTRC: 'greyToneReproductionCurve',
+  chad: 'chromaticAdaptation',
+  A2B0: 'A2B0',
+  A2B1: 'A2B1',
+  A2B2: 'A2B2',
+  B2A0: 'B2A0',
+  B2A1: 'B2A1',
+  B2A2: 'B2A2',
+  gamt: 'famut'
 };
 
 const getContentAtOffsetAsString = (buffer, offset) => {
@@ -59,6 +74,9 @@ const readStringUTF16BE = (buffer, start, end) => {
   return value;
 };
 
+const readS15FixedNumber16 = (b) => ((b & 0x80000000) >> 16 * -1) + ((b & 0x7FFF0000) >> 16) + ((b & 0x0000FFFF) / 0x10000);
+const writeS15FixedNumber16 = (f) => ((f * 0x10000) & 0xFFFF) + (((f & 0x7FFF) - (f & 0x8000)) << 16) >>> 0;
+
 const invalid = (reason) => new Error(`Invalid ICC profile: ${reason}`);
 
 module.exports.parse = (buffer) => {
@@ -74,6 +92,7 @@ module.exports.parse = (buffer) => {
   }
   // Integer attributes
   const profile = {
+    length: buffer.readUInt32BE(8),
     version: versionMap[buffer.readUInt32BE(8)],
     intent: intentMap[buffer.readUInt32BE(64)]
   };
@@ -94,48 +113,161 @@ module.exports.parse = (buffer) => {
   });
   // Tags
   const tagCount = buffer.readUInt32BE(128);
+  profile["tagCount"] = tagCount;
   let tagHeaderOffset = 132;
-  for (let i = 0; i < tagCount; i++) {
-    const tagSignature = getContentAtOffsetAsString(buffer, tagHeaderOffset);
-    if (tagSignature in tagMap) {
-      const tagOffset = buffer.readUInt32BE(tagHeaderOffset + 4);
-      const tagSize = buffer.readUInt32BE(tagHeaderOffset + 8);
-      if (tagOffset > buffer.length) {
-        throw invalid('tag offset out of bounds');
-      }
-      const tagType = getContentAtOffsetAsString(buffer, tagOffset);
-      // desc
-      if (tagType === 'desc') {
-        const tagValueSize = buffer.readUInt32BE(tagOffset + 8);
-        if (tagValueSize > tagSize) {
-          throw invalid(`description tag value size out of bounds for ${tagSignature}`);
+  const tagTable = new Array(tagCount).fill()
+    .map((v, i) => [
+      buffer.slice(132 + i * 12, 132 + i * 12 + 4).toString('utf8'),
+      buffer.readUInt32BE(132 + i * 12 + 4),
+      buffer.readUInt32BE(132 + i * 12 + 8)
+    ])
+    .map(([key, from, len]) => [
+      key,
+      buffer.slice(from, from + 4).toString('utf8'),
+      buffer.slice(from + 4, from + len),
+      from + 4,
+      len - 4
+    ])
+
+  //console.log(tagTable)
+  profile['tagTable'] = tagTable;
+  //for (let i = 0; i < tagCount; i++) {
+  for (const [tag, type, slice, from,len] of tagTable) {
+    console.log({ tag, type, len, slice })
+    let off = 0, inToff, inTlen, cluToff, cluTlen, ouToff, ouTlen;
+    let e, inputTables, clut, outputTables;
+
+    switch (type) {
+
+
+      case 'desc':
+
+        const tagValueSize = slice.readUInt32BE(4);
+
+        console.log({ tag, type, tagValueSize })
+
+        if (tagValueSize > len) {
+          throw invalid(`description tag value size out of bounds for ${tag}`);
         }
-        profile[tagMap[tagSignature]] = buffer.slice(tagOffset + 12, tagOffset + tagValueSize + 11).toString();
-      }
-      // text
-      if (tagType === 'text') {
-        profile[tagMap[tagSignature]] = buffer.slice(tagOffset + 8, tagOffset + tagSize - 7).toString();
-      }
-      if (tagType === 'mluc' && tagSignature in tagMap) {
-        // 4 bytes signature, 4 bytes reserved (must be 0), 4 bytes number of names, 4 bytes name record size (must be 12)
-        const numberOfNames = buffer.readUInt32BE(tagOffset + 8);
-        const nameRecordSize = buffer.readUInt32BE(tagOffset + 12);
-        if (nameRecordSize !== 12) {
-          throw invalid(`mluc name record size must be 12 for tag ${tagSignature}`);
+        off += 4
+        profile[tagMap[tag]] = slice.slice(8, 8 + tagValueSize - 1).toString();
+        break;
+
+      case 'text':
+        //TODO: this is probably wrong
+        //off=+4
+        const textSize = slice.readUInt32BE(1);
+
+        profile[tagMap[tag]] = slice.slice(4, textSize - 29).toString().trim()
+        break;
+      case 'mluc':
+        //TODO: this is probably wrong
+        if (true) {
+          // 4 bytes signature, 4 bytes reserved (must be 0), 4 bytes number of names, 4 bytes name record size (must be 12)
+          off = 1;
+          const numberOfNames = buffer.readUInt32BE(++off * 4);
+          const nameRecordSize = buffer.readUInt32BE(++off * 4);
+          if (nameRecordSize !== 12) {
+            throw invalid(`mluc name record size must be 12 for tag ${tagSignature}`);
+          }
+          if (numberOfNames > 0) {
+            // Entry: 2 bytes language code, 2 bytes country code, 4 bytes length, 4 bytes offset from start of tag
+            // const languageCode = buffer.slice(tagOffset + 16, tagOffset + 18).toString();
+            // const countryCode = buffer.slice(tagOffset + 18, tagOffset + 20).toString();
+            const nameLength = buffer.readUInt32BE(++off * 4);
+            const nameOffset = buffer.readUInt32BE(++off * 4);
+            const nameStart = off + nameOffset;
+            const nameStop = nameStart + nameLength;
+            profile[tagMap[tagSignature]] = slice.slice(nameStart, nameStop).readString();//readStringUTF16BE(buffer, nameStart, nameStop);
+          }
         }
-        if (numberOfNames > 0) {
-          // Entry: 2 bytes language code, 2 bytes country code, 4 bytes length, 4 bytes offset from start of tag
-          // const languageCode = buffer.slice(tagOffset + 16, tagOffset + 18).toString();
-          // const countryCode = buffer.slice(tagOffset + 18, tagOffset + 20).toString();
-          const nameLength = buffer.readUInt32BE(tagOffset + 20);
-          const nameOffset = buffer.readUInt32BE(tagOffset + 24);
-          const nameStart = tagOffset + nameOffset;
-          const nameStop = nameStart + nameLength;
-          profile[tagMap[tagSignature]] = readStringUTF16BE(buffer, nameStart, nameStop);
+        break;
+
+      case 'XYZ ':
+        profile[tagMap[tag]] = new Array(len / 4).fill()
+          .map((v, j) => slice.readInt16BE(4 * j))
+        break;
+
+      case 'sf32':
+        profile[tagMap[tag]] = new Array(len / 4).fill()
+          .map((v, j) => slice.readUint32BE(4 * j))
+          .map(readS15FixedNumber16)
+        break;
+
+      case 'mft1':
+        //const padd1 = slice.slice(0,4).toString()
+        off = 4
+        const [i, o, g] = [
+          slice.readUint8(off++),
+          slice.readUint8(off++),
+          slice.readUint8(off++)
+        ]
+        off++
+        e = new Array(9).fill()
+          .map((v, j) => slice.readUint32BE(off + j * 4))
+          .map(readS15FixedNumber16)
+        off += 9 * 4;
+        inToff = off;
+        inTlen = 256 * i;
+        cluToff = inToff + inTlen
+        ouTlen = 256 * o
+        ouToff = len - ouTlen;
+        cluTlen = ouToff - cluToff;
+
+        profile[tagMap[tag]] = {
+          i, o, g,
+          e,
+          inputTables: slice.slice(inToff, inToff + inTlen),//new Array(inTlen).fill().map((v,j)=>slice.readUint8(inToff + j))
+          clut: slice.slice(cluToff, cluToff + cluTlen),//new Array(cluTlen).fill().map((v,j)=>slice.readUint8(cluToff + j))
+          outputTables: slice.slice(ouToff, ouToff + ouTlen),//new Array(ouTlen).fill().map((v,j)=>slice.readUint8(ouToff + j))                       
+          //inToff,inTlen,cluToff,cluTlen,ouToff,ouTlen,
+          leek:len - ouTlen - cluTlen - inTlen -inToff
         }
-      }
+        break;
+      case 'mft2':
+        //const padd1 = slice.slice(0,4).toString()
+        off = 4
+        const [ii, oo, gg] = [
+          slice.readUint8(off++),
+          slice.readUint8(off++),
+          slice.readUint8(off++)
+        ]
+        off++
+        e = new Array(9).fill()
+          .map((v, j) => slice.readUint32BE(off + j * 4))
+          .map(readS15FixedNumber16)
+        off += 9 * 4;
+
+        const [n, m] = [
+          slice.readUint16BE(off),
+          slice.readUint16BE(off + 2)
+        ]
+
+        inToff = off;
+        inTlen = n * ii *2;
+        cluToff = inToff + inTlen
+        ouTlen = m * oo *2
+        ouToff = len - ouTlen;
+        cluTlen = ouToff - cluToff;
+
+        profile[tagMap[tag]] = {
+          i: ii, o: oo, g: gg,
+          e,
+          n, m,
+          inputTables: slice.slice(inToff, inToff + inTlen),//new Array(inTlen).fill().map((v,j)=>slice.readUint8(inToff + j))
+          clut: slice.slice(cluToff, cluToff + cluTlen),//new Array(cluTlen).fill().map((v,j)=>slice.readUint8(cluToff + j))
+          outputTables: slice.slice(ouToff, ouToff + ouTlen),//new Array(ouTlen).fill().map((v,j)=>slice.readUint8(ouToff + j))                       
+          //inToff,inTlen,cluToff,cluTlen,ouToff,ouTlen,
+          leek:len - ouTlen - cluTlen - inTlen -inToff
+        }
+        break;
+
+      default:
+        console.log({ tag, type, slice })
+        break;
     }
-    tagHeaderOffset = tagHeaderOffset + 12;
   }
   return profile;
 };
+
+
