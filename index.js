@@ -144,7 +144,7 @@ module.exports.parse = (buffer) => {
 
         const tagValueSize = slice.readUInt32BE(4);
 
-        console.log({ tag, type, tagValueSize })
+        //console.log({ tag, type, tagValueSize })
 
         if (tagValueSize > len) {
           throw invalid(`description tag value size out of bounds for ${tag}`);
@@ -250,7 +250,7 @@ module.exports.parse = (buffer) => {
         ouToff = len - ouTlen;
         cluTlen = ouToff - cluToff;
 
-        profile[tagMap[tag]] = {
+        profile[(tag in tagMap)?tagMap[tag]:tag] = {
           i: ii, o: oo, g: gg,
           e,
           n, m,
@@ -263,7 +263,14 @@ module.exports.parse = (buffer) => {
         break;
 
       default:
-        console.log({ tag, type, slice })
+        profile[(tag in tagMap)?tagMap[tag]:tag] = {
+          tag, 
+          type, 
+          slice,
+          from,
+          len
+        }
+        //console.log({ tag, type, slice })
         break;
     }
   }
