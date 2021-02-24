@@ -1,0 +1,256 @@
+{
+   "length": 69206016,
+   "version": "4.2",
+   "intent": "Perceptual",
+   "deviceClass": "Printer",
+   "colorSpace": "RGB",
+   "connectionSpace": "Lab",
+   "platform": "Microsoft",
+   "creator": "XRCM",
+   "tagCount": 19,
+   "tagTable": [
+      {
+         "key": 0,
+         "tag": "desc",
+         "type": "mluc",
+         "offset": 364,
+         "length": 100
+      },
+      {
+         "key": 1,
+         "tag": "wtpt",
+         "type": "XYZ ",
+         "offset": 468,
+         "length": 16
+      },
+      {
+         "key": 2,
+         "tag": "bkpt",
+         "type": "XYZ ",
+         "offset": 488,
+         "length": 16
+      },
+      {
+         "key": 3,
+         "tag": "chad",
+         "type": "sf32",
+         "offset": 508,
+         "length": 40
+      },
+      {
+         "key": 4,
+         "tag": "cprt",
+         "type": "mluc",
+         "offset": 552,
+         "length": 68
+      },
+      {
+         "key": 5,
+         "tag": "A2B0",
+         "type": "mAB ",
+         "offset": 624,
+         "length": 328628
+      },
+      {
+         "key": 6,
+         "tag": "A2B1",
+         "type": "mAB ",
+         "offset": 329256,
+         "length": 328628
+      },
+      {
+         "key": 7,
+         "tag": "A2B2",
+         "type": "mAB ",
+         "offset": 657888,
+         "length": 328628
+      },
+      {
+         "key": 8,
+         "tag": "B2A0",
+         "type": "mBA ",
+         "offset": 986520,
+         "length": 336816
+      },
+      {
+         "key": 9,
+         "tag": "B2A1",
+         "type": "mBA ",
+         "offset": 1323340,
+         "length": 328628
+      },
+      {
+         "key": 10,
+         "tag": "B2A2",
+         "type": "mBA ",
+         "offset": 1651972,
+         "length": 328628
+      },
+      {
+         "key": 11,
+         "tag": "gamt",
+         "type": "mBA ",
+         "offset": 1980604,
+         "length": 109608
+      },
+      {
+         "key": 12,
+         "tag": "gbd0",
+         "type": "gbd ",
+         "offset": 2090216,
+         "length": 115264
+      },
+      {
+         "key": 13,
+         "tag": "gbd1",
+         "type": "gbd ",
+         "offset": 2205484,
+         "length": 115264
+      },
+      {
+         "key": 14,
+         "tag": "gbd2",
+         "type": "gbd ",
+         "offset": 2320752,
+         "length": 115264
+      },
+      {
+         "key": 15,
+         "tag": "gbd3",
+         "type": "gbd ",
+         "offset": 2436020,
+         "length": 115264
+      },
+      {
+         "key": 16,
+         "tag": "view",
+         "type": "view",
+         "offset": 2551288,
+         "length": 32
+      },
+      {
+         "key": 17,
+         "tag": "CxF ",
+         "type": "ZXML",
+         "offset": 2551324,
+         "length": 230543
+      },
+      {
+         "key": 18,
+         "tag": "meta",
+         "type": "dict",
+         "offset": 2781872,
+         "length": 68
+      }
+   ],
+   "description": {},
+   "whitepoint": [
+      0,
+      0,
+      0,
+      0
+   ],
+   "undefined": [
+      0,
+      0,
+      0,
+      0
+   ],
+   "chromaticAdaptation": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1
+   ],
+   "copyright": {},
+   "A2B0": {
+      "tag": "A2B0",
+      "type": "mAB ",
+      "from": 624,
+      "len": 328628
+   },
+   "A2B1": {
+      "tag": "A2B1",
+      "type": "mAB ",
+      "from": 329256,
+      "len": 328628
+   },
+   "A2B2": {
+      "tag": "A2B2",
+      "type": "mAB ",
+      "from": 657888,
+      "len": 328628
+   },
+   "B2A0": {
+      "tag": "B2A0",
+      "type": "mBA ",
+      "from": 986520,
+      "len": 336816
+   },
+   "B2A1": {
+      "tag": "B2A1",
+      "type": "mBA ",
+      "from": 1323340,
+      "len": 328628
+   },
+   "B2A2": {
+      "tag": "B2A2",
+      "type": "mBA ",
+      "from": 1651972,
+      "len": 328628
+   },
+   "famut": {
+      "tag": "gamt",
+      "type": "mBA ",
+      "from": 1980604,
+      "len": 109608
+   },
+   "gbd0": {
+      "tag": "gbd0",
+      "type": "gbd ",
+      "from": 2090216,
+      "len": 115264
+   },
+   "gbd1": {
+      "tag": "gbd1",
+      "type": "gbd ",
+      "from": 2205484,
+      "len": 115264
+   },
+   "gbd2": {
+      "tag": "gbd2",
+      "type": "gbd ",
+      "from": 2320752,
+      "len": 115264
+   },
+   "gbd3": {
+      "tag": "gbd3",
+      "type": "gbd ",
+      "from": 2436020,
+      "len": 115264
+   },
+   "view": {
+      "tag": "view",
+      "type": "view",
+      "from": 2551288,
+      "len": 32
+   },
+   "CxF ": {
+      "tag": "CxF ",
+      "type": "ZXML",
+      "from": 2551324,
+      "len": 230543
+   },
+   "meta": {
+      "tag": "meta",
+      "type": "dict",
+      "from": 2781872,
+      "len": 68
+   }
+}

@@ -1,0 +1,218 @@
+{
+   "length": 34603008,
+   "version": "2.1",
+   "intent": "Perceptual",
+   "cmm": "Adobe",
+   "deviceClass": "Printer",
+   "colorSpace": "CMYK",
+   "connectionSpace": "Lab",
+   "platform": "Apple",
+   "manufacturer": "Adobe",
+   "creator": "Adobe",
+   "tagCount": 10,
+   "tagTable": [
+      {
+         "key": 0,
+         "tag": "desc",
+         "type": "desc",
+         "offset": 256,
+         "length": 112
+      },
+      {
+         "key": 1,
+         "tag": "cprt",
+         "type": "text",
+         "offset": 372,
+         "length": 39
+      },
+      {
+         "key": 2,
+         "tag": "wtpt",
+         "type": "XYZ ",
+         "offset": 416,
+         "length": 16
+      },
+      {
+         "key": 3,
+         "tag": "A2B0",
+         "type": "mft2",
+         "offset": 436,
+         "length": 41474
+      },
+      {
+         "key": 4,
+         "tag": "A2B2",
+         "type": "mft2",
+         "offset": 436,
+         "length": 41474
+      },
+      {
+         "key": 5,
+         "tag": "A2B1",
+         "type": "mft2",
+         "offset": 41916,
+         "length": 41474
+      },
+      {
+         "key": 6,
+         "tag": "B2A0",
+         "type": "mft1",
+         "offset": 83396,
+         "length": 145584
+      },
+      {
+         "key": 7,
+         "tag": "B2A1",
+         "type": "mft1",
+         "offset": 228984,
+         "length": 145584
+      },
+      {
+         "key": 8,
+         "tag": "B2A2",
+         "type": "mft1",
+         "offset": 374572,
+         "length": 145584
+      },
+      {
+         "key": 9,
+         "tag": "gamt",
+         "type": "mft1",
+         "offset": 520160,
+         "length": 37005
+      }
+   ],
+   "description": "U.S. Web Coated (SWOP) v2",
+   "copyright": "Copyright 2000 Adobe Systems, Inc.",
+   "whitepoint": [
+      0,
+      0,
+      0,
+      0
+   ],
+   "A2B0": {
+      "i": 4,
+      "o": 3,
+      "g": 9,
+      "e": [
+         1,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         1
+      ],
+      "n": 256,
+      "m": 2,
+      "leek": 0
+   },
+   "A2B2": {
+      "i": 4,
+      "o": 3,
+      "g": 9,
+      "e": [
+         1,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         1
+      ],
+      "n": 256,
+      "m": 2,
+      "leek": 0
+   },
+   "A2B1": {
+      "i": 4,
+      "o": 3,
+      "g": 9,
+      "e": [
+         1,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         1
+      ],
+      "n": 256,
+      "m": 2,
+      "leek": 0
+   },
+   "B2A0": {
+      "i": 3,
+      "o": 4,
+      "g": 33,
+      "e": [
+         1,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         1
+      ],
+      "leek": 0
+   },
+   "B2A1": {
+      "i": 3,
+      "o": 4,
+      "g": 33,
+      "e": [
+         1,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         1
+      ],
+      "leek": 0
+   },
+   "B2A2": {
+      "i": 3,
+      "o": 4,
+      "g": 33,
+      "e": [
+         1,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         1
+      ],
+      "leek": 0
+   },
+   "famut": {
+      "i": 3,
+      "o": 1,
+      "g": 33,
+      "e": [
+         1,
+         0,
+         0,
+         0,
+         1,
+         0,
+         0,
+         0,
+         1
+      ],
+      "leek": 0
+   }
+}

@@ -1,0 +1,181 @@
+{
+   "length": 33554432,
+   "version": "2.0",
+   "intent": "Perceptual",
+   "deviceClass": "Monitor",
+   "colorSpace": "RGB",
+   "connectionSpace": "XYZ",
+   "tagCount": 16,
+   "tagTable": [
+      {
+         "key": 0,
+         "tag": "desc",
+         "type": "desc",
+         "offset": 328,
+         "length": 117
+      },
+      {
+         "key": 1,
+         "tag": "bXYZ",
+         "type": "XYZ ",
+         "offset": 452,
+         "length": 16
+      },
+      {
+         "key": 2,
+         "tag": "bTRC",
+         "type": "curv",
+         "offset": 472,
+         "length": 2056
+      },
+      {
+         "key": 3,
+         "tag": "dmdd",
+         "type": "desc",
+         "offset": 2532,
+         "length": 132
+      },
+      {
+         "key": 4,
+         "tag": "gXYZ",
+         "type": "XYZ ",
+         "offset": 2668,
+         "length": 16
+      },
+      {
+         "key": 5,
+         "tag": "gTRC",
+         "type": "curv",
+         "offset": 472,
+         "length": 2056
+      },
+      {
+         "key": 6,
+         "tag": "lumi",
+         "type": "XYZ ",
+         "offset": 2688,
+         "length": 16
+      },
+      {
+         "key": 7,
+         "tag": "meas",
+         "type": "meas",
+         "offset": 2708,
+         "length": 32
+      },
+      {
+         "key": 8,
+         "tag": "bkpt",
+         "type": "XYZ ",
+         "offset": 2744,
+         "length": 16
+      },
+      {
+         "key": 9,
+         "tag": "rXYZ",
+         "type": "XYZ ",
+         "offset": 2764,
+         "length": 16
+      },
+      {
+         "key": 10,
+         "tag": "rTRC",
+         "type": "curv",
+         "offset": 472,
+         "length": 2056
+      },
+      {
+         "key": 11,
+         "tag": "tech",
+         "type": "sig ",
+         "offset": 2784,
+         "length": 8
+      },
+      {
+         "key": 12,
+         "tag": "vued",
+         "type": "desc",
+         "offset": 2796,
+         "length": 131
+      },
+      {
+         "key": 13,
+         "tag": "wtpt",
+         "type": "XYZ ",
+         "offset": 2932,
+         "length": 16
+      },
+      {
+         "key": 14,
+         "tag": "cprt",
+         "type": "text",
+         "offset": 2952,
+         "length": 51
+      },
+      {
+         "key": 15,
+         "tag": "chad",
+         "type": "sf32",
+         "offset": 3008,
+         "length": 40
+      }
+   ],
+   "description": "sRGB IEC61966-2-1 black scaled",
+   "undefined": [
+      0,
+      0,
+      0,
+      0
+   ],
+   "bTRC": {
+      "tag": "bTRC",
+      "type": "curv",
+      "from": 472,
+      "len": 2056
+   },
+   "deviceModelDescription": "IEC 61966-2-1 Default RGB Colour Space - sRGB",
+   "gTRC": {
+      "tag": "gTRC",
+      "type": "curv",
+      "from": 472,
+      "len": 2056
+   },
+   "meas": {
+      "tag": "meas",
+      "type": "meas",
+      "from": 2708,
+      "len": 32
+   },
+   "rTRC": {
+      "tag": "rTRC",
+      "type": "curv",
+      "from": 472,
+      "len": 2056
+   },
+   "tech": {
+      "tag": "tech",
+      "type": "sig ",
+      "from": 2784,
+      "len": 8
+   },
+   "viewingConditionsDescription": "Reference Viewing Condition in IEC 61966-2-1",
+   "whitepoint": [
+      0,
+      0,
+      1,
+      0
+   ],
+   "copyright": "Copyright International Color Cons",
+   "chromaticAdaptation": [
+      0,
+      1.04791259765625,
+      0.0229339599609375,
+      -0.050201416015625,
+      0.02960205078125,
+      0.9904632568359375,
+      -0.0170745849609375,
+      -0.009246826171875,
+      0.0150604248046875,
+      0.7517852783203125
+   ]
+}
