@@ -55,7 +55,7 @@ const tagMap = {
   B2A0: 'B2A0',
   B2A1: 'B2A1',
   B2A2: 'B2A2',
-  gamt: 'famut'
+  gamt: 'gamut'
 };
 
 const getContentAtOffsetAsString = (buffer, offset) => {
@@ -79,7 +79,8 @@ const writeS15FixedNumber16 = (f) => ((f * 0x10000) & 0xFFFF) + (((f & 0x7FFF) -
 
 const invalid = (reason) => new Error(`Invalid ICC profile: ${reason}`);
 
-module.exports.parse = (buffer) => {
+
+const parse = (buffer) => {
   // Verify expected length
   const size = buffer.readUInt32BE(0);
   if (size !== buffer.length) {
@@ -161,14 +162,15 @@ module.exports.parse = (buffer) => {
         profile[tagMap[tag]] = slice.slice(4, textSize - 29).toString().trim()
         break;
       case 'mluc':
+        
         //TODO: this is probably wrong
-        if (true) {
+        try{
           // 4 bytes signature, 4 bytes reserved (must be 0), 4 bytes number of names, 4 bytes name record size (must be 12)
           off = 1;
           const numberOfNames = buffer.readUInt32BE(++off * 4);
           const nameRecordSize = buffer.readUInt32BE(++off * 4);
           if (nameRecordSize !== 12) {
-            throw invalid(`mluc name record size must be 12 for tag ${tagSignature}`);
+            //throw invalid(`mluc name record size must be 12 for tag ${tagSignature}`);
           }
           if (numberOfNames > 0) {
             // Entry: 2 bytes language code, 2 bytes country code, 4 bytes length, 4 bytes offset from start of tag
@@ -178,8 +180,11 @@ module.exports.parse = (buffer) => {
             const nameOffset = buffer.readUInt32BE(++off * 4);
             const nameStart = off + nameOffset;
             const nameStop = nameStart + nameLength;
-            profile[tagMap[tagSignature]] = slice.slice(nameStart, nameStop).readString();//readStringUTF16BE(buffer, nameStart, nameStop);
+            profile[tagMap[tag]] = slice.slice(nameStart, nameStop).readString();//readStringUTF16BE(buffer, nameStart, nameStop);
           }
+        }
+        catch(error){
+          profile[tagMap[tag]] = error
         }
         break;
 
@@ -278,3 +283,5 @@ module.exports.parse = (buffer) => {
 };
 
 
+//module.exports.parse = parse
+export default parse
